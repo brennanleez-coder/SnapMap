@@ -11,7 +11,10 @@ SnapMap is a web app that uses real-time traffic and weather information for Sin
 
 
 
+
 ## Rationale 
+**Assumptions**
+ApiKeys are not stored in dotenv file. This is a bad practice.
 
 **Why ContextAPI instead of Redux?**
 

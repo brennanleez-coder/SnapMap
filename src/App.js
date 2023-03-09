@@ -1,7 +1,7 @@
 import Header from './components/Header.js';
 import { ThemeProvider } from 'styled-components';
 import WeatherTracker from './pages/WeatherTracker.js';
-
+import { Toaster } from 'react-hot-toast';
 
 const theme = {
   colors: {
@@ -19,7 +19,6 @@ function App() {
     <>
       <Header/>
       <WeatherTracker/>
-      <button onClick={notify}>Make me a toast</button>
       <Toaster />
     </>
     </ThemeProvider>

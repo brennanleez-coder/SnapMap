@@ -1,48 +1,61 @@
 import React, {useState, useEffect } from 'react'
 import { StyledCard } from './styles/Card.styled'
 import axios from 'axios'
-import toast, { Toaster } from 'react-hot-toast';
-
-const notify = () => toast.error('Unable to fetch Locations! Try again later.',
-  {
-    style: {
-      padding: '16px',
-      color: '#713200',
-      borderRadius: '10px',
-      }
-  }
-);
-
-const baseURL = 'https://api.data.gov.sg/v1/transport/'
-
+import { notify } from '../utils/toast/errors'
+import {LocationContainer} from './styles/LocationContainer.styled'
+import { fetchCameras } from '../utils/axios/trafficImages'
+import { reverseGeocoding } from '../utils/axios/reverseGeocoding'
+import WeatherCard from './WeatherCard'
+import styled from 'styled-components'
+import { CustomPopup } from './styles/PopupModal.styled'
 
 const ListOfLocations = ({date}) => {
-    const [locations, setLocations] = useState([]);
+    const [cameras, setCameras] = useState([]);
+    const [locationNames, setLocationNames] = useState([]);
+    const [showModal, setShowModal] = useState(false);
 
-   useEffect(() => {
-         axios.get(baseURL + `traffic-images?date_time=${date}`)
-            .then(res => {
-                console.log(res?.data?.items)
-                setLocations(res?.data?.items?.cameras)
+    useEffect(() => {
+        fetchCameras(date)
+            .then(cameras => {
+                setCameras(cameras);
+                // Reverse geocode each camera location
+                const locationPromises = cameras.map(camera => reverseGeocoding(camera?.location?.latitude, camera?.location?.longitude));
+                Promise.all(locationPromises)
+                    .then(names => setLocationNames(names))
+                    .catch(err => notify("Error fetching location data."));
             })
-            .catch(err => {
-                toast.error('Unable to fetch Locations! Try again later.',
-                {
-                    style: {
-                    padding: '16px',
-                    color: '#713200',
-                    borderRadius: '10px',
-                    }
-                }
-                );
-            })
-    }, [date])
-  return (
-    <StyledCard>
-        asdd
-      <h1>asdasd</h1>
-    </StyledCard>
-  )
-}
+            .catch(err => notify(err.message));
+    }, [date]);
 
-export default ListOfLocations
+    const handleModalClose = () => {
+        setShowModal(false);
+    }
+
+    const handleModalOpen = () => {
+        setShowModal(true);
+    }
+
+    return (
+        <>
+            <LocationContainer>
+            {cameras.length === 0 && <h2>No cameras found</h2>}
+            {cameras.length > 0 &&
+                cameras.map((camera, index) => (
+                    <StyledCard key={index}>
+                        <h2>{camera?.camera_id}</h2>
+                        <h3>{camera?.timestamp}</h3>
+                        <p>{locationNames[index]}</p>
+                        <button onClick={handleModalOpen}>View Image</button>
+                        {showModal && (
+                            <CustomPopup imageUrl={camera?.image} onClose={handleModalClose} />
+                        )}
+                    </StyledCard>
+                ))
+            }
+        </LocationContainer>
+            <WeatherCard />
+        </>
+    );
+};
+
+export default ListOfLocations;
