@@ -1,70 +1,130 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# SnapMap - Real-time Traffic and Weather Information
+SnapMap is a web app that uses real-time traffic and weather information for Singapore from the Traffic Images and Weather Forecast APIs by data.gov.sg. It lets users choose a date and time to view a list of locations with traffic cam photos, displayed with user-friendly location names using a reverse geocoding service. Users can select a location to view the traffic cam photo and weather information.
+## Tech Stack
+- ReactJS
+- ContextAPI
+- Styled Components
+- Traffic Images (https://data.gov.sg/dataset/traffic-images)
+- Weather Forecast (https://data.gov.sg/dataset/weather-forecast)
 
-## Available Scripts
 
-In the project directory, you can run:
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Rationale 
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+**Why ContextAPI instead of Redux?**
 
-### `npm test`
+Redux is more performant than ContextAPI for large, complex applications because it provides a centralized way to manage state. This reduces the number of component rerenders and can help to improve application performance. However, considering the little functionality and global state required, ContextAPI has lesser boilerplate and is in-built into React. 
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+**Why Styled Components instead of TailwindCSS?**
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Styled Components provides more flexibility and control over your styles because you can use all of the features of CSS, including media queries and pseudo-selectors. With TailwindCSS, I may need to write custom CSS to achieve more complex layouts or interactions.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Styled Components can be more scalable than TailwindCSS because it generates unique class names for each component. Also, TailwindCSS, on the other hand, can lead to large amounts of HTML with lots of classes, which can be difficult to manage and maintain as SnapMap grows.
+## User Stories
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+| User Story | As a... | I want to... | So that... |
+| --- | --- | --- | --- |
+| US1 | User | Choose a date and time | I can view traffic cam photos for a specific time |
+| US2 | User | See a list of locations with traffic cam photos | I can select a location to view |
+| US3 | User | See user-friendly location names | I can understand the location better |
+| US4 | User | See a traffic cam photo for a selected location | I can see the traffic conditions in that location |
+| US5 | User | See weather information for a selected location | I can plan my activities based on the weather in that location |
+| US6 | User | See weather information for the nearest available location | I can still plan my activities even if weather data is not available for the selected location |
 
-### `npm run eject`
+## API Reference
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Traffic Images API:
+Base URL: https://api.data.gov.sg/v1/transport/traffic-images
+#### Get all Cameras
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```http
+  GET /cameras
+```
+Returns a list of traffic cameras with their image URLs and locations.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `date_time` | `string` | Optional. Specifies the date/time in the format yyyy-MM-dd[T]HH:mm:ss. Only images captured after this date/time will be returned. |
+| `camera_id` | `string` | Optional. Specifies the ID of the traffic camera. Only images captured by this camera will be returned. |
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+#### Get Images from Cameras
 
-## Learn More
+```http
+  GET /images
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `date_time` | `string` | Optional. Specifies the date/time in the format yyyy-MM-dd[T]HH:mm:ss. Only images captured after this date/time will be returned. |
+| `camera_id` | `string` | Optional. Specifies the ID of the traffic camera. Only images captured by this camera will be returned. |
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
+### Weather Forecast API:
+Base URL: https://api.data.gov.sg/v1/environment
+#### Get 2-hour-weather-forecast
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```http
+  GET /2-hour-weather-forecast
+```
+Returns a list of weather forecasts for various locations in Singapore for the next 2 hours.
 
-### Analyzing the Bundle Size
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `date_time` | `string` | Optional. Specifies the date/time in the format yyyy-MM-dd[T]HH:mm:ss. Only images captured after this date/time will be returned. |
+| `camera_id` | `string` | Optional. Specifies the ID of the traffic camera. Only images captured by this camera will be returned. |
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+#### Get Nearest PSI
 
-### Making a Progressive Web App
+```http
+  GET /nearest-psi
+```
+Returns the Pollutant Standards Index (PSI) readings for the nearest location to a specified latitude and longitude.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-### Advanced Configuration
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `date_time` | `string` | Optional. Specifies the date/time in the format yyyy-MM-dd[T]HH:mm:ss. Only weather forecasts captured after this date/time will be returned. |
+| `latitude` | `float` | Optional. Specifies the latitude of the location to retrieve the PSI reading. |
+| `longitude` | `float` | Optional. Specifies the longitude of the location to retrieve the PSI reading. |
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-### Deployment
+## Features
+- Choose a date and time to view traffic cam photos for a specific time
+- View a list of locations with traffic cam photos and select a location to view
+- See user-friendly location names using a reverse geocoding service
+- View a traffic cam photo for a selected location
+- See weather information for a selected location
+- See weather information for the nearest available location if data is not available for the selected location
+## Project setup
+```
+npm install
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### Compiles and hot-reloads for development
+```
+npm start
+```
 
-### `npm run build` fails to minify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Roadmap
+
+### Authentication with Firebase
+- Implement user authentication using Firebase Authentication to secure user data and protect against unauthorized access.
+- Allow users to sign up for an account, log in, and log out.
+- Implement authorization rules using Firebase's security rules to control access to certain features of the application.
+
+### Additional Features
+- Allow users to save their favorite locations for easy access.
+- Implement notifications to alert users of traffic or weather events in their selected locations.
+- Allow users to set alerts for certain weather conditions or traffic incidents in their selected locations.
+- Implement a feature to suggest alternative routes based on traffic conditions.
+- Allow users to provide feedback on the application or report issues using a feedback form.
+- Implement a feature to display historical traffic and weather data for a selected location.
+- Allow users to customize the application's appearance using different themes or color schemes.
+## Authors
+
+- [@brennanleez-coder](https://www.github.com/brennanleez-coder)
+
