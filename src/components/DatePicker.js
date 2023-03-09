@@ -44,23 +44,12 @@ export default function DatePicker({setDate}) {
             <DateComponent
 
             disableFuture
-            slotProps={{
-                textField: {
-                  helperText: 'MM / DD / YYYY',
-                },
-              }}
             onChange={(date) => {
                 dispatch({type: 'setDateState', payload: date.toISOString().split('T')[0]})
             }}
             />
             <TimeComponent
             label="Time"
-
-            slotProps={{
-                textField: {
-                  helperText: 'HH:MM',
-                },
-              }}
             onChange={(date) => {
                 dispatch({type: 'setTimeState', payload: date.toISOString().split('T')[1].split('.')[0]})
             }}
