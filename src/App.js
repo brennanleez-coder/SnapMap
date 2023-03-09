@@ -1,8 +1,26 @@
+import { Container } from './components/styles/Container.styled.js';
+import Header from './components/Header.js';
+import { ThemeProvider } from 'styled-components';
+import WeatherTracker from './pages/WeatherTracker.js';
+
+const theme = {
+  colors: {
+    header: '#ebfbff',
+    body: '#fff',
+    footer: '#003333',
+  },
+  
+}
+
+
 function App() {
   return (
-    <div className="App">
-      <h1>Hello World</h1>
-    </div>
+    <ThemeProvider theme={theme}>
+    <>
+      <Header/>
+      <WeatherTracker/>
+    </>
+    </ThemeProvider>
   );
 }
 
