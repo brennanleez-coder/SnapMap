@@ -2,14 +2,12 @@ import styled from 'styled-components'
 
 
 export const LocationContainer = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-  flex-wrap: wrap;
-  width: '50%',
-  margin: 0 auto,
-  flex-wrap: wrap;
-  overflow: hidden;
+display: grid;
+grid-template-columns: repeat(2, 1fr);
+gap: 2rem;
+
+@media only screen and (max-width: 768px) {
+  grid-template-columns: 1fr;
+}
 `;
 
