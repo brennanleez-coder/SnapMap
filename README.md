@@ -53,18 +53,6 @@ Returns a list of traffic cameras with their image URLs and locations.
 | `date_time` | `string` | Optional. Specifies the date/time in the format yyyy-MM-dd[T]HH:mm:ss. Only images captured after this date/time will be returned. |
 | `camera_id` | `string` | Optional. Specifies the ID of the traffic camera. Only images captured by this camera will be returned. |
 
-#### Get Images from Cameras
-
-```http
-  GET /images
-```
-
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `date_time` | `string` | Optional. Specifies the date/time in the format yyyy-MM-dd[T]HH:mm:ss. Only images captured after this date/time will be returned. |
-| `camera_id` | `string` | Optional. Specifies the ID of the traffic camera. Only images captured by this camera will be returned. |
-
-
 ### Weather Forecast API:
 Base URL: https://api.data.gov.sg/v1/environment
 #### Get 2-hour-weather-forecast
@@ -78,20 +66,6 @@ Returns a list of weather forecasts for various locations in Singapore for the n
 | :-------- | :------- | :------------------------- |
 | `date_time` | `string` | Optional. Specifies the date/time in the format yyyy-MM-dd[T]HH:mm:ss. Only images captured after this date/time will be returned. |
 | `camera_id` | `string` | Optional. Specifies the ID of the traffic camera. Only images captured by this camera will be returned. |
-
-#### Get Nearest PSI
-
-```http
-  GET /nearest-psi
-```
-Returns the Pollutant Standards Index (PSI) readings for the nearest location to a specified latitude and longitude.
-
-
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `date_time` | `string` | Optional. Specifies the date/time in the format yyyy-MM-dd[T]HH:mm:ss. Only weather forecasts captured after this date/time will be returned. |
-| `latitude` | `float` | Optional. Specifies the latitude of the location to retrieve the PSI reading. |
-| `longitude` | `float` | Optional. Specifies the longitude of the location to retrieve the PSI reading. |
 
 
 ## Features

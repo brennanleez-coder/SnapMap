@@ -36,6 +36,12 @@ const CloseButton = styled.button`
   color: #333;
 `;
 
+export const StyledImage = styled.img`
+  border-radius: 10px;
+  margin: 30px 0;
+  object-fit: cover;
+`;
+
 export const PopUpModal = ({ isOpen, onClose, children }) => {
   if (!isOpen) return null;
 
