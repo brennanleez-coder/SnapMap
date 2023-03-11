@@ -4,8 +4,14 @@ import {Nav} from './styles/Header.styled'
 import {StyledButton as Button} from './styles/Button.styled'
 import { Flex } from './styles/Flex.styled'
 import {Image} from './styles/Header.styled'
-import { ThemeContext } from 'styled-components'
+import { useTypewriter, Cursor } from 'react-simple-typewriter'
 const Header = () => {
+  const [text, count] = useTypewriter({
+    words: ["SnapMap - Real-time Traffic and Weather"],
+    // loop: true,
+    typeSpeed: 100,
+    delaySpeed: 800,
+  })
   return (
     <StyledHeader>
         <Container>
@@ -15,7 +21,8 @@ const Header = () => {
             >
               <a
                 style={{ textDecoration: "none", color: "black" }}
-                target={"_blank"}
+                target="_blank"
+                rel="noreferrer"
                 href="https://github.com/brennanleez-coder/SnapMap"
               >
               View Source Code
@@ -23,7 +30,9 @@ const Header = () => {
             </Button>
           </Nav>
           <Flex>
-            <h1>SnapMap - Real-time Traffic and Weather Information</h1>
+            <h1>{text}</h1>
+            <Cursor 
+            cursorColor='#F7AB0A'/>
           </Flex>
           </Container>
     </StyledHeader>

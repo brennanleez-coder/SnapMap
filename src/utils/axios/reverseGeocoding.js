@@ -9,7 +9,6 @@ export const reverseGeocoding = async (lat, lon) => {
     const response = await axios.get(`${baseURL}reverse?lat=${lat}&lon=${lon}&apiKey=${apiKey}`);
     return response.data.features[0].properties.formatted;
   } catch (err) {
-    notify("Error fetching location data.");
-    return null;
+    throw new Error("Error occurred while reverse geocoding location.");
   }
 };

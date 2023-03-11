@@ -36,7 +36,7 @@ export default function DatePicker({setDate}) {
 
     useEffect(() => {
         setDate(state.date + 'T' + state.time)
-    }, [state])
+    }, [state, setDate])
         
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>

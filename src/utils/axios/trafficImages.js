@@ -1,6 +1,4 @@
 import axios from "axios";
-import { notify } from "../toast/errors";
-
 
 const baseURL = 'https://api.data.gov.sg/v1/transport/'
 

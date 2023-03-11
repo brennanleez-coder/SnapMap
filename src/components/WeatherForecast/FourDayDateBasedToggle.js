@@ -1,7 +1,16 @@
-import { fourDayWeatherForecastApiMockData as forecast} from '../../utils/mockData'
+import { useEffect, useState } from 'react';
+import { fourDayWeatherForecastApiMockData as mockForecast} from '../../utils/mockData'
 import { StyledButton } from '../styles/Button.styled'
+import { fetchFourDayWeatherWithDate } from '../../utils/axios/weatherApi';
+import { notify as notifySuccess } from '../../utils/toast/success';
+import { notify as notifyError } from '../../utils/toast/errors'
 
-const ForecastItem = ({ date, forecast, humidity, temperature, wind }) => {
+
+
+export const FourDayDateBasedToggle = ({date, showFourDayDateBasedWeather,setShowFourDayDateBasedWeather }) => {
+    const [forecast, setForecast] = useState(null);
+
+  const ForecastItem = ({ date, forecast, humidity, temperature, wind }) => {
     return (
       <div 
         style={{
@@ -22,7 +31,7 @@ const ForecastItem = ({ date, forecast, humidity, temperature, wind }) => {
       </div>
     );
   };
-  
+    
   const ForecastList = ({ forecasts }) => {
     return (
       <div
@@ -32,7 +41,7 @@ const ForecastItem = ({ date, forecast, humidity, temperature, wind }) => {
         gridGap: "20px",
         margin: "0 auto",
         // border: "1px solid black",
-
+  
       }}
     >
         {forecasts.map((item) => (
@@ -49,7 +58,25 @@ const ForecastItem = ({ date, forecast, humidity, temperature, wind }) => {
     );
   };
 
-export const FourDayWeatherToggle = ({showFourDayWeather,setShowFourDayWeather }) => {
+    useEffect(() => {
+      fetchFourDayWeatherWithDate(date)
+      .then((res) => {
+        setForecast(res)
+        notifySuccess("4 day weather forecast based on given date successfully retrieved")
+        // console.log(res)
+      })
+      .catch((err) => {
+        notifyError(err.message)
+        // console.log(err.message)
+      });
+
+    //       console.log({
+    //   forecast: forecast,
+    //   date: date,
+    // })
+    }, [date]);
+
+
     return (
     <>
         <StyledButton 
@@ -60,8 +87,9 @@ export const FourDayWeatherToggle = ({showFourDayWeather,setShowFourDayWeather }
             marginBottom: "20px"
 
         }}
-        onClick={() => setShowFourDayWeather(!showFourDayWeather)}>Show 4 day Weather Forecast</StyledButton>
-        {showFourDayWeather && <ForecastList forecasts={forecast.items[0].forecasts} />}
+        onClick={() => setShowFourDayDateBasedWeather(!showFourDayDateBasedWeather)}>Weather Forecast Based on Date (4 days)</StyledButton>
+        {showFourDayDateBasedWeather && forecast && <ForecastList forecasts={forecast.items[0].forecasts}
+        />}
     </>
     )
 }
