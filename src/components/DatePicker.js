@@ -42,14 +42,16 @@ export default function DatePicker({setDate}) {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Flex>
             <DateComponent
-
             disableFuture
+            defaultValue={initialDateTime}
+            
             onChange={(date) => {
                 dispatch({type: 'setDateState', payload: date.toISOString().split('T')[0]})
             }}
             />
             <TimeComponent
             label="Time"
+            defaultValue={initialDateTime}
             onChange={(date) => {
                 dispatch({type: 'setTimeState', payload: date.toISOString().split('T')[1].split('.')[0]})
             }}

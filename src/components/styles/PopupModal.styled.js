@@ -37,6 +37,8 @@ const CloseButton = styled.button`
 `;
 
 export const StyledImage = styled.img`
+  width: 500px;
+  height: 500px;
   border-radius: 10px;
   margin: 30px 0;
   object-fit: cover;
