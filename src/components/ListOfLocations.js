@@ -6,13 +6,14 @@ import { notify as notifyError} from '../utils/toast/errors'
 import { notify as notifySuccess } from '../utils/toast/success'
 import { convertDate } from '../utils/date.js'
 import { useState, useEffect } from 'react'
+import { fetchWeatherForecastFromLocation } from '../utils/axios/weatherApi'
 
-const ListOfLocations = ({date, handleModalOpen}) => {
+const ListOfLocations = ({dateTime, handleModalOpen}) => {
     const [cameras, setCameras] = useState([]);
     const [locationNames, setLocationNames] = useState([]);
 
     useEffect(() => {
-        fetchCameras(date)
+        fetchCameras(dateTime)
             .then(cameras => {
                 setCameras(cameras);
                 // Reverse geocode each camera location
@@ -23,8 +24,8 @@ const ListOfLocations = ({date, handleModalOpen}) => {
                 notifySuccess("Cameras fetched successfully.")
             })
             .catch(err => notifyError(err.message));
-    }, [date]);
-
+    }, [dateTime]);
+    
     return (
         <>
             <LocationContainer>
