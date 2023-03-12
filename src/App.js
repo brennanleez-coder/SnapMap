@@ -13,7 +13,8 @@ const theme = {
   },
   
 }
-
+const isMobile = window.innerWidth < 768;
+const toastLocation = (isMobile) ? 'top-center' : 'bottom-right';
 
 function App() {
   return (
@@ -21,7 +22,9 @@ function App() {
     <>
       <Header/>
       <WeatherTracker/>
-      <Toaster />
+      <Toaster
+        position={toastLocation}
+      />
     </>
     </ThemeProvider>
   );
