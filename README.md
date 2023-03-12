@@ -7,7 +7,7 @@ SnapMap is a web app that uses real-time traffic and weather information for Sin
 - Styled Components
 - Traffic Images (https://data.gov.sg/dataset/traffic-images)
 - Weather Forecast (https://data.gov.sg/dataset/weather-forecast)
-
+- Reverse Geocoding (https://www.geoapify.com/)
 
 
 
@@ -42,16 +42,11 @@ Styled Components can be more scalable than TailwindCSS because it generates uni
 ### Traffic Images API:
 Base URL: https://api.data.gov.sg/v1/transport/traffic-images
 #### Get all Cameras
-
-```http
-  GET /cameras
-```
 Returns a list of traffic cameras with their image URLs and locations.
 
 | Parameter | Type     | Description                |
 | :-------- | :------- | :------------------------- |
 | `date_time` | `string` | Optional. Specifies the date/time in the format yyyy-MM-dd[T]HH:mm:ss. Only images captured after this date/time will be returned. |
-| `camera_id` | `string` | Optional. Specifies the ID of the traffic camera. Only images captured by this camera will be returned. |
 
 ### Weather Forecast API:
 Base URL: https://api.data.gov.sg/v1/environment
@@ -65,7 +60,30 @@ Returns a list of weather forecasts for various locations in Singapore for the n
 | Parameter | Type     | Description                |
 | :-------- | :------- | :------------------------- |
 | `date_time` | `string` | Optional. Specifies the date/time in the format yyyy-MM-dd[T]HH:mm:ss. Only images captured after this date/time will be returned. |
-| `camera_id` | `string` | Optional. Specifies the ID of the traffic camera. Only images captured by this camera will be returned. |
+
+
+#### Get 24-hour-weather-forecast
+```http
+GET /environment/24-hour-weather-forecast
+```
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `date_time` | `string` | Optional. Specifies the date/time in the format yyyy-MM-dd[T]HH:mm:ss (SGT). Only forecasts issued after this date/time will be returned.|
+| `date` | `string` | Optional. Specifies the date in the format yyyy-MM-dd. Retrieves all of the forecasts issued for that day.|
+
+
+
+#### Get 4-day-weather-forecast
+```http
+GET /4-day-weather-forecast
+```
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `date_time` | `string` | Optional. Specifies the date/time in the format yyyy-MM-dd[T]HH:mm:ss (SGT).|
+| `date` | `string` | Optional. Specifies the date in the format yyyy-MM-dd.|
+
+
+
 
 
 ## Features
@@ -75,6 +93,7 @@ Returns a list of weather forecasts for various locations in Singapore for the n
 - View a traffic cam photo for a selected location
 - See weather information for a selected location
 - See weather information for the nearest available location if data is not available for the selected location
+
 ## Project setup
 ```
 npm install
