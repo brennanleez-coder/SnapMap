@@ -11,6 +11,7 @@ const DateTimeInput = ({ date, setDate}) => {
         <label htmlFor="date">Date</label>
         <input type="datetime-local"
             name="datetime"
+            max={new Date().toISOString().split(".")[0]}
             value={date}
             onChange={handleDateTimeChange}
         />
