@@ -7,8 +7,8 @@ import {Image} from './styles/Header.styled'
 import { useTypewriter, Cursor } from 'react-simple-typewriter'
 const Header = () => {
   const [text, count] = useTypewriter({
-    words: ["SnapMap - Real-time Traffic and Weather"],
-    // loop: true,
+    words: ["SnapMap Real-time Weather"],
+    loop: true,
     typeSpeed: 100,
     delaySpeed: 800,
   })
@@ -17,17 +17,14 @@ const Header = () => {
         <Container>
           <Nav>
             <Image src='./images/SnapMapLogo.png' alt="" />
-            <Button 
-            >
-              <a
+            <a
                 style={{ textDecoration: "none", color: "black" }}
                 target="_blank"
                 rel="noreferrer"
                 href="https://github.com/brennanleez-coder/SnapMap"
               >
-              View Source Code
-              </a>
-            </Button>
+            <Button>View Source Code</Button>
+            </a>
           </Nav>
           <Flex>
             <h1>{text}</h1>

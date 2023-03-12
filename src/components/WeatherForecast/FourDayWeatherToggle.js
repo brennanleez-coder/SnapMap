@@ -4,7 +4,7 @@ import { StyledButton } from '../styles/Button.styled'
 import { fetchImmediateFourDayWeather } from '../../utils/axios/weatherApi';
 import { notify as notifySuccess } from '../../utils/toast/success';
 import { notify as notifyError } from '../../utils/toast/errors'
-
+import { StyledForecastItem, StyledForecastList} from '../styles/FourDayForecast.styled';
 
 
 const FourDayWeatherToggle = ({date, showFourDayWeather,setShowFourDayWeather }) => {
@@ -12,38 +12,20 @@ const FourDayWeatherToggle = ({date, showFourDayWeather,setShowFourDayWeather })
 
     const ForecastItem = ({ date, forecast, humidity, temperature, wind }) => {
       return (
-        <div 
-          style={{
-            // border: "1px solid black",
-            padding: "10px",
-            textAlign: "center",
-            backgroundColor: "white",
-            borderRadius: "5px",
-          }}
-        
-        >
+        <StyledForecastItem>
           <h3>{date}</h3>
           <p>{forecast}</p>
           <p>Humidity: {humidity.low}% - {humidity.high}%</p>
           <p>Temperature: {temperature.low}°C - {temperature.high}°C</p>
           <p>Wind Speed: {wind.speed.low} km/h - {wind.speed.high} km/h</p>
           <p>Wind Direction: {wind.direction}</p>
-        </div>
+        </StyledForecastItem>
       );
     };
     
   const ForecastList = ({ forecasts }) => {
     return (
-      <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(4, 1fr)",
-        gridGap: "20px",
-        margin: "0 auto",
-        // border: "1px solid black",
-  
-      }}
-    >
+      <StyledForecastList>
         {forecasts.map((item) => (
           <ForecastItem
             key={item.timestamp}
@@ -54,7 +36,7 @@ const FourDayWeatherToggle = ({date, showFourDayWeather,setShowFourDayWeather })
             wind={item.wind}
           />
         ))}
-      </div>
+      </StyledForecastList>
     );
   };
 
@@ -80,8 +62,8 @@ const FourDayWeatherToggle = ({date, showFourDayWeather,setShowFourDayWeather })
     return (
     <>
         <StyledButton 
+        color="#FFA600"
         style={{
-            //centre button
             display: "flex",
             margin: "20px auto",
             marginBottom: "20px"

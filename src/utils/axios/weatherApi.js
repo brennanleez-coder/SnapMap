@@ -44,17 +44,18 @@ export const fetchTwentyFourHourWeather = (date) => {
 
 
 
-export const fetchWeatherForecastFromLocation = (latitude, longitude, dateTime = null, date = null, ) => {
+export const fetchWeatherForecastFromLocation = (latitude, longitude, dateTime) => {
 
-    const endpoint = !dateTime
-    ?
-    `2-hour-weather-forecast?date_time=${dateTime}`
-    :
-    !date 
-    ?
-    `2-hour-weather-forecast?date=${date}`
-    :
-    null;
+    let endpoint;
+    let dateTime = null
+    if (dateTime) {
+        endpoint = `2-hour-weather-forecast?date_time=${dateTime}`
+    } else if (date) {
+        endpoint = `2-hour-weather-forecast?date=${date}`
+    } else {
+        endpoint = null;
+    }
+
 
     if (!endpoint) throw new Error("Error fetching weather forecast from location. Invalid date or date time.")
 

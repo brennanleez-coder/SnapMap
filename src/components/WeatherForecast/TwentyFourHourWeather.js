@@ -37,12 +37,12 @@ const TwentyFourHourForecast = (
     const periods = forecastData?.items?.[0]?.periods;
 
 
-
   
 
   return (
     <>
         <StyledButton 
+        color="#FFA600"
         style={{
             //centre button
             display: "flex",
@@ -50,18 +50,18 @@ const TwentyFourHourForecast = (
             marginBottom: "20px"
 
         }}
-        onClick={() => setShowTwentyFourHourForecast(!showTwentyFourHourForecast)}>24h Forecast</StyledButton>
+        onClick={() => setShowTwentyFourHourForecast(!showTwentyFourHourForecast)}>24 Hour Forecast</StyledButton>
         {showTwentyFourHourForecast && 
         <WeatherWrapper>  
           <WeatherList>
             {periods.map((period) => (
               <WeatherItem key={period.time.start}>
                 <WeatherPeriod>{period.time.start}</WeatherPeriod>
-                <div>West: {period.regions.west}</div>
-                <div>East: {period.regions.east}</div>
-                <div>Central: {period.regions.central}</div>
-                <div>South: {period.regions.south}</div>
-                <div>North: {period.regions.north}</div>
+                <p>West: {period.regions.west}</p>
+                <p>East: {period.regions.east}</p>
+                <p>Central: {period.regions.central}</p>
+                <p>South: {period.regions.south}</p>
+                <p>North: {period.regions.north}</p>
               </WeatherItem>
             ))}
           </WeatherList>

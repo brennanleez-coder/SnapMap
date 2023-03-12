@@ -4,7 +4,7 @@ import { StyledButton } from '../styles/Button.styled'
 import { fetchFourDayWeatherWithDate } from '../../utils/axios/weatherApi';
 import { notify as notifySuccess } from '../../utils/toast/success';
 import { notify as notifyError } from '../../utils/toast/errors'
-
+import { StyledForecastItem, StyledForecastList} from '../styles/FourDayForecast.styled';
 
 
 export const FourDayDateBasedToggle = ({date, showFourDayDateBasedWeather,setShowFourDayDateBasedWeather }) => {
@@ -12,15 +12,7 @@ export const FourDayDateBasedToggle = ({date, showFourDayDateBasedWeather,setSho
 
   const ForecastItem = ({ date, forecast, humidity, temperature, wind }) => {
     return (
-      <div 
-        style={{
-          // border: "1px solid black",
-          padding: "10px",
-          textAlign: "center",
-          backgroundColor: "white",
-          borderRadius: "5px",
-        }}
-      
+      <StyledForecastItem
       >
         <h3>{date}</h3>
         <p>{forecast}</p>
@@ -28,22 +20,13 @@ export const FourDayDateBasedToggle = ({date, showFourDayDateBasedWeather,setSho
         <p>Temperature: {temperature.low}°C - {temperature.high}°C</p>
         <p>Wind Speed: {wind.speed.low} km/h - {wind.speed.high} km/h</p>
         <p>Wind Direction: {wind.direction}</p>
-      </div>
+      </StyledForecastItem>
     );
   };
     
   const ForecastList = ({ forecasts }) => {
     return (
-      <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(4, 1fr)",
-        gridGap: "20px",
-        margin: "0 auto",
-        // border: "1px solid black",
-  
-      }}
-    >
+      <StyledForecastList>
         {forecasts.map((item) => (
           <ForecastItem
             key={item.timestamp}
@@ -54,7 +37,7 @@ export const FourDayDateBasedToggle = ({date, showFourDayDateBasedWeather,setSho
             wind={item.wind}
           />
         ))}
-      </div>
+      </StyledForecastList>
     );
   };
 
@@ -63,23 +46,18 @@ export const FourDayDateBasedToggle = ({date, showFourDayDateBasedWeather,setSho
       .then((res) => {
         setForecast(res)
         notifySuccess("4 day weather forecast based on given date successfully retrieved")
-        // console.log(res)
       })
       .catch((err) => {
         notifyError(err.message)
-        // console.log(err.message)
       });
-
-    //       console.log({
-    //   forecast: forecast,
-    //   date: date,
-    // })
     }, [date]);
 
 
     return (
     <>
         <StyledButton 
+        color="#FFA600"
+        // bg="#0077be"
         style={{
             //centre button
             display: "flex",
@@ -87,7 +65,7 @@ export const FourDayDateBasedToggle = ({date, showFourDayDateBasedWeather,setSho
             marginBottom: "20px"
 
         }}
-        onClick={() => setShowFourDayDateBasedWeather(!showFourDayDateBasedWeather)}>Weather Forecast Based on Date (4 days)</StyledButton>
+        onClick={() => setShowFourDayDateBasedWeather(!showFourDayDateBasedWeather)}>4 Day Forecast</StyledButton>
         {showFourDayDateBasedWeather && forecast && <ForecastList forecasts={forecast.items[0].forecasts}
         />}
     </>
