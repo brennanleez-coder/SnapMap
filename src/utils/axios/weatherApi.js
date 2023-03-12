@@ -19,7 +19,6 @@ export const fetchImmediateFourDayWeather = () => {
 export const fetchFourDayWeatherWithDate = (date) => {
     return axios.get(`${baseURL}4-day-weather-forecast?date=${date}`)
         .then((res) => {
-            // console.log(res)
             return res?.data;
 
         }).catch((err) => {
@@ -32,7 +31,6 @@ export const fetchFourDayWeatherWithDate = (date) => {
 export const fetchTwentyFourHourWeather = (date) => {
     return axios.get(`${baseURL}24-hour-weather-forecast?date=${date}`)
         .then((res) => {
-            // console.log(res)
             return res?.data;
         })
         .catch((err) => {
@@ -114,11 +112,9 @@ export const fetchWeatherFromLocation = (date, latitude, longitude) => {
                 let areaName = exactArea.name || nearestArea.name;
     
                 //match area with area_metadata
-                // let areaName = area.name;
-                // console.log(area.name)
     
                 let forecast = items[0].forecasts.find((f) => f.area === areaName ).forecast
-                console.log(forecast)
+                // console.log(forecast)
                 return {
                     exactArea: exactArea.name,
                     nearestArea: nearestArea.name,

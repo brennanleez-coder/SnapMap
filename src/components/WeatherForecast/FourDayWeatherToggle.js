@@ -15,10 +15,10 @@ const FourDayWeatherToggle = ({date, showFourDayWeather,setShowFourDayWeather })
         <StyledForecastItem>
           <h3>{date}</h3>
           <p>{forecast}</p>
-          <p>Humidity: {humidity.low}% - {humidity.high}%</p>
-          <p>Temperature: {temperature.low}°C - {temperature.high}°C</p>
-          <p>Wind Speed: {wind.speed.low} km/h - {wind.speed.high} km/h</p>
-          <p>Wind Direction: {wind.direction}</p>
+          <p>Humidity: {humidity?.low}% - {humidity?.high}%</p>
+          <p>Temperature: {temperature?.low}°C - {temperature?.high}°C</p>
+          <p>Wind Speed: {wind?.speed?.low} km/h - {wind?.speed?.high} km/h</p>
+          <p>Wind Direction: {wind?.direction}</p>
         </StyledForecastItem>
       );
     };
@@ -45,17 +45,10 @@ const FourDayWeatherToggle = ({date, showFourDayWeather,setShowFourDayWeather })
       .then((res) => {
         setForecast(res)
         notifySuccess("Immediate 4 day weather forecast successfully retrieved")
-        // console.log(res)
       })
       .catch((err) => {
         notifyError(err.message)
-        // console.log(err.message)
       });
-
-    //       console.log({
-    //   forecast: forecast,
-    //   date: date,
-    // })
     }, [date]);
 
 

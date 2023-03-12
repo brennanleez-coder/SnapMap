@@ -24,9 +24,12 @@ export const WeatherItem = styled.li`
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: center;
   margin: 1rem 0;
   & > p {
     color: #666;
+    margin: 1rem;
+
   }
 
   @media (max-width: 768px) {

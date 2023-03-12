@@ -2,7 +2,7 @@ import Header from './components/Header.js';
 import { ThemeProvider } from 'styled-components';
 import WeatherTracker from './pages/WeatherTracker.js';
 import { Toaster } from 'react-hot-toast';
-
+import Footer from './components/Footer.js';
 
 const theme = {
   colors: {
@@ -25,6 +25,7 @@ function App() {
       <Toaster
         position={toastLocation}
       />
+      <Footer/>
     </>
     </ThemeProvider>
   );

@@ -2,25 +2,22 @@ import { useEffect, useState } from 'react';
 import { getDateOrTimeFromISOString } from '../utils/date.js'
 import { fetchWeatherFromLocation } from '../utils/axios/weatherApi'
 import { StyledImage } from './styles/PopupModal.styled.js';
+import {notify as notifyError} from '../utils/toast/errors.js';
+import {notify as notifySuccess} from '../utils/toast/errors.js';
 
 const LocationModal = ({imgUrl, location, date}) => {
     const [forecastData, setForecastData] = useState({})
 
     const {latitude, longitude} = location;
 
-
-          // console.log(dateTime) 2023-03-12T15:09:49
-    //provide singapore lat and lon
-    // const promise = (fetchWeatherForecastFromLocation(1.375,103.839, dateTime))
-
     useEffect(() => {
         fetchWeatherFromLocation(getDateOrTimeFromISOString(date)[0], latitude, longitude)
             .then((res) => {
                 setForecastData(res)
-                console.log(res)
+                notifySuccess("Location forecast data fetched successfully.")
             })
             .catch((err) => {
-                // console.log(err)
+                notifyError(err.message)
             })           
     }, [date, latitude, longitude])
     
