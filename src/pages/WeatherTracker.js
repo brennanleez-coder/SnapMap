@@ -7,6 +7,7 @@ import FourDayWeatherToggle from "../components/WeatherForecast/FourDayWeatherTo
 import TwentyFourHourForecast from "../components/WeatherForecast/TwentyFourHourWeather";
 import {FourDayDateBasedToggle} from "../components/WeatherForecast/FourDayDateBasedToggle";
 import { getYYYYMMDDFromISOString } from "../utils/date";
+import DateTimeInput from "../components/DateTimeInput";
 
 const WeatherTracker = () => {
     const [date, setDate] = useState("2023-03-01T06:21:18+08:00");
@@ -49,6 +50,7 @@ const WeatherTracker = () => {
             />
             {/* based on current Api timing so itll show next four days */}
             <DatePicker setDate={setDate}/>
+            <DateTimeInput/>
             {/* <FourDayDateBasedToggle
             date={getYYYYMMDDFromISOString(date)}
             showFourDayDateBasedWeather={showFourDayDateBasedWeather}
