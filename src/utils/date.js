@@ -10,7 +10,7 @@ export const getYYYYMMDDFromISOString = (isoDateString) => {
     return yyyyMMdd;
 }
 
-export const getDateTimeFromISOString = (isoDateString) => {
+export const getDateOrTimeFromISOString = (isoDateString) => {
     const formattedDate = new Date(isoDateString);
     const yyyyMMdd = formattedDate.toISOString().slice(0, 10);
     const time = formattedDate.toISOString().slice(11, 19);

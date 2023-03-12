@@ -41,52 +41,91 @@ export const fetchTwentyFourHourWeather = (date) => {
 }
 
 
+export const fetchWeatherFromLocation = (date, latitude, longitude) => {
+    return axios.get(`https://api.data.gov.sg/v1/environment/2-hour-weather-forecast?date=${date}`)
+            .then((res) => {
+                const { area_metadata, items } = res.data;
 
+                // Find the area with the matching latitude and longitude
+                //exact match of area
+                let exactArea = area_metadata.find(
+                    (a) => a.label_location.latitude === latitude && a.label_location.longitude === longitude
+                );
+                // If no exact match, find the nearest area
+                let nearestArea;
+                if (!exactArea) {
+                    let distances = area_metadata.map((a) => {
+                        const dx = a.label_location.latitude - latitude;
+                        const dy = a.label_location.longitude - longitude;
+                        return { area: a, distance: Math.sqrt(dx * dx + dy * dy) };
+                    });
+                    //sort by nearest distance
+                    distances.sort((a, b) => a.distance - b.distance);
+                    // nearest area
+                    nearestArea = distances[0].area; 
+                }
+                //match area with area_metadata
+                let areaName = exactArea ? exactArea.name : nearestArea.name;
 
-
-export const fetchWeatherForecastFromLocation = (latitude, longitude, dateTime) => {
-
-    let endpoint;
-    let dateTime = null
-    if (dateTime) {
-        endpoint = `2-hour-weather-forecast?date_time=${dateTime}`
-    } else if (date) {
-        endpoint = `2-hour-weather-forecast?date=${date}`
-    } else {
-        endpoint = null;
-    }
-
-
-    if (!endpoint) throw new Error("Error fetching weather forecast from location. Invalid date or date time.")
-
-
-
-    return axios.get(`${baseURL}${endpoint}`)
-        .then((res) => {
-            const { area_metadata, items } = res.data;
-
-            // Find the area with the matching latitude and longitude
-            let area = area_metadata.find(
-                (a) => a.label_location.latitude === latitude && a.label_location.longitude === longitude
-            );
-
-            // If no exact match, find the nearest area
-            if (!area) {
-                let distances = area_metadata.map((a) => {
-                    const dx = a.label_location.latitude - latitude;
-                    const dy = a.label_location.longitude - longitude;
-                    return { area: a, distance: Math.sqrt(dx * dx + dy * dy) };
-                });
-                //sort by nearest distance
-                distances.sort((a, b) => a.distance - b.distance);
-                area = distances[0].area;
-                return area //should be an array 
-            } else { //exact match
+                const forecast = items[0].forecasts.find((f) => f.area === areaName).forecast;
                 
-                return [items[0].forecasts.find((f) => f.area === area.name)] //should be a single value
+                const response = {
+                    exactArea,
+                    nearestArea,
+                    forecast
+                }
+                return response;
+            })
+            .catch((err) => {
+                throw new Error(err);
             }
-        })
-        .catch((err) => {
-            throw new Error("Error fetching weather forecast from location.");
-        });
+        );
     }
+
+
+
+    export const fetchWeather2 = (date) => {
+        return axios.get(`https://api.data.gov.sg/v1/environment/2-hour-weather-forecast?date=2023-03-01`)
+                .then((res) => {
+                    const { area_metadata, items } = res.data;
+    
+                // Find the area with the matching latitude and longitude
+                let latitude = 1.374;
+                let longitude = 103.838;
+                //exact match of area to lat lon
+                let exactArea = area_metadata.find(
+                    (a) => a.label_location.latitude === latitude && a.label_location.longitude === longitude
+                );
+    
+                // If no exact match, find the nearest area
+                let nearestArea;
+                if (!exactArea) {
+    
+                    let distances = area_metadata.map((a) => {
+                        const dx = a.label_location.latitude - latitude;
+                        const dy = a.label_location.longitude - longitude;
+                        return { area: a, distance: Math.sqrt(dx * dx + dy * dy) };
+                    });
+                    //sort by nearest distance
+                    distances.sort((a, b) => a.distance - b.distance);
+                    // nearest area
+                    nearestArea = distances[0].area; 
+                }
+                let areaName = exactArea.name || nearestArea.name;
+    
+                //match area with area_metadata
+                // let areaName = area.name;
+                // console.log(area.name)
+    
+                let forecast = items[0].forecasts.find((f) => f.area === areaName ).forecast
+                console.log(forecast)
+                return {
+                    exactArea: exactArea.name,
+                    nearestArea: nearestArea.name,
+                    forecast: forecast
+                }
+            })
+            .catch((err) => {
+                throw new Error("Error fetching weather forecast from location.");
+            });
+        }

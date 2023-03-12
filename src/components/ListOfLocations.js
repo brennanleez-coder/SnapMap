@@ -4,9 +4,9 @@ import { fetchCameras } from '../utils/axios/trafficImages'
 import { reverseGeocoding } from '../utils/axios/reverseGeocoding'
 import { notify as notifyError} from '../utils/toast/errors'
 import { notify as notifySuccess } from '../utils/toast/success'
-import { convertDate, getDateTimeFromISOString } from '../utils/date.js'
+import { convertDate, getDateOrTimeFromISOString } from '../utils/date.js'
 import { useState, useEffect } from 'react'
-import { fetchWeatherForecastFromLocation } from '../utils/axios/weatherApi'
+import { fetchWeatherFromLocation } from '../utils/axios/weatherApi'
 
 const ListOfLocations = ({dateTime, handleModalOpen}) => {
     const [cameras, setCameras] = useState([]);
@@ -26,16 +26,17 @@ const ListOfLocations = ({dateTime, handleModalOpen}) => {
             .catch(err => notifyError(err.message));
     }, [dateTime]);
 
-    console.log(getDateTimeFromISOString(dateTime))
+    // console.log(dateTime) 2023-03-12T15:09:49
     //provide singapore lat and lon
-    const promise = (fetchWeatherForecastFromLocation(1.375,103.839, dateTime))
-    fetchWeatherForecastFromLocation(1.3521, 103.8198, '2023-03-13')
-  .then((result) => {
-    console.log(result);
-  })
-  .catch((error) => {
-    console.error(error);
-  });
+    // const promise = (fetchWeatherForecastFromLocation(1.375,103.839, dateTime))
+
+    fetchWeatherFromLocation(getDateOrTimeFromISOString(dateTime)[0], 1.375,103.839,)
+        .then((res) => {
+            console.log(res)
+        })
+        .catch((err) => {
+            // console.log(err)
+        })
 
     
     return (
